@@ -1,20 +1,29 @@
-# Project Structure
+# CRM Microservices App 🚀
+
+A microservices-based CRM application with multiple services using Node.js, Python, Java, and React.js frontend.
+
+---
+
+## Project Structure 📂
+
+```plaintext
 crm-microservices-app/
-│
-├── frontend/                     # React.js frontend
+├── frontend/ 🌐                     # React.js frontend
 │   ├── public/
+│   │   ├── index.html
+│   │   └── favicon.ico
 │   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── services/             # API calls to backend
-│   │   ├── hooks/
-│   │   ├── context/
+│   │   ├── components/ 🧩          # Reusable UI components
+│   │   ├── pages/ 📄               # Pages by feature
+│   │   ├── services/ 🔌            # API calls to backend
+│   │   ├── hooks/ 🪝               # React custom hooks
+│   │   ├── context/ 🌐             # Context providers
 │   │   └── App.jsx
 │   ├── package.json
 │   └── vite.config.js (or CRA config)
 │
-├── services/
-│   ├── user-service/             # Service 1: Node.js + MongoDB
+├── services/ ⚙️
+│   ├── user-service/ 🟢 Node.js + MongoDB
 │   │   ├── src/
 │   │   │   ├── controllers/
 │   │   │   ├── models/
@@ -26,7 +35,7 @@ crm-microservices-app/
 │   │   ├── package.json
 │   │   └── Dockerfile
 │   │
-│   ├── leads-service/            # Service 2: Python (FastAPI) + PostgreSQL
+│   ├── leads-service/ 🐍 Python (FastAPI) + PostgreSQL
 │   │   ├── app/
 │   │   │   ├── api/
 │   │   │   ├── models/
@@ -37,7 +46,7 @@ crm-microservices-app/
 │   │   ├── requirements.txt
 │   │   └── Dockerfile
 │   │
-│   ├── course-service/           # Service 3: Java (Spring Boot) + MySQL
+│   ├── course-service/ ☕ Java (Spring Boot) + MySQL
 │   │   ├── src/main/java/com/crm/course/
 │   │   │   ├── controller/
 │   │   │   ├── model/
@@ -49,7 +58,7 @@ crm-microservices-app/
 │   │   ├── pom.xml
 │   │   └── Dockerfile
 │   │
-│   ├── analytics-service/        # Service 4: Python + PostgreSQL
+│   ├── analytics-service/ 🐍 Python + PostgreSQL
 │   │   ├── app/
 │   │   │   ├── api/
 │   │   │   ├── models/
@@ -59,22 +68,16 @@ crm-microservices-app/
 │   │   ├── requirements.txt
 │   │   └── Dockerfile
 │   │
-│   └── ai-agent-service/         # Future AI Agent
+│   └── ai-agent-service/ 🤖 Future AI Agent
 │       ├── app/
 │       └── Dockerfile
 │
-├── api-gateway/                  # Reverse proxy or Kong config
+├── api-gateway/ 🌐                  # Reverse proxy or Kong config
 │   └── kong.yml (or nginx.conf)
 │
-├── infra/
-│   ├── k8s-manifests/            # Kubernetes YAMLs
-│   ├── terraform/                # Cloud infra setup
-│   └── ansible/                  # Config mgmt
-│
-├── monitoring/                   # Prometheus & Grafana
-│
-├── docker-compose.yml            # Local dev orchestration
-└── README.md
+├── docker-compose.yml 🐳            # Local dev orchestration
+└── README.md 📘
+```
 
 ## Services
 - Run Everything
@@ -108,7 +111,6 @@ cp .env.example .env
 npm install
 npm run dev
 ```
-
 
 ### Docker (service-only)
 ```bash
