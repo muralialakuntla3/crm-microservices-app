@@ -52,6 +52,3 @@ process.exit(1);
 });
 
 export default app; // For testing purposes
-if (require.main === module) {
-  app.listen(PORT, () => console.log(`Server running on ${PORT}`));
-}
