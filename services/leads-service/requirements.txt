@@ -5,6 +5,7 @@ SQLModel
 asyncpg
 alembic
 pydantic
+email-validator
 python-dotenv
 httpx
 

@@ -141,6 +141,8 @@ services:
     container_name: frontend
     ports:
       - "80:80"
+    environment:
+      - REACT_APP_API_URL=http://api-gateway
     depends_on:
       - api-gateway
     networks:
