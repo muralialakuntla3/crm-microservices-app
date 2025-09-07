@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+python-jose[cryptography]
+SQLModel
+asyncpg
+alembic
+pydantic
+python-dotenv
+httpx
+
+# Testing
+pytest==7.4.0
+httpx==0.24.1

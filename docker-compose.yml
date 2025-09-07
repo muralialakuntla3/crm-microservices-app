@@ -1,0 +1,138 @@
+version: "3.9"
+
+services:
+# ---------------- USER SERVICE ----------------
+  user-service:
+    build: ./services/user-service
+    container_name: user-service
+    ports:
+      - "8001:3000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/userdb
+      - JWT_SECRET=supersecretkey
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:5.0
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+# ---------------- LEADS SERVICE ----------------
+  leads-service:
+    build: ./services/leads-service
+    container_name: leads-service
+    ports:
+      - "8002:5000"
+    environment:
+      - POSTGRES_USER=leads_user
+      - POSTGRES_PASSWORD=leads_pass
+      - POSTGRES_DB=leads_db
+      - POSTGRES_HOST=leads-db
+      - POSTGRES_PORT=5432
+      - JWT_SECRET=supersecretkey
+    depends_on:
+      - leads-db
+
+  leads-db:
+    image: postgres:14
+    container_name: leads-db
+    restart: always
+    environment:
+      POSTGRES_USER: leads_user
+      POSTGRES_PASSWORD: leads_pass
+      POSTGRES_DB: leads_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - leads_data:/var/lib/postgresql/data
+
+# ---------------- COURSE SERVICE ----------------
+  course-service:
+    build: ./services/course-service
+    container_name: course-service
+    ports:
+      - "8003:6000"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://course-db:3306/course_db
+      - SPRING_DATASOURCE_USERNAME=course_user
+      - SPRING_DATASOURCE_PASSWORD=course_pass
+      - JWT_SECRET=supersecretkey
+    depends_on:
+      - course-db
+
+  course-db:
+    image: mysql:8
+    container_name: course-db
+    restart: always
+    environment:
+      MYSQL_DATABASE: course_db
+      MYSQL_USER: course_user
+      MYSQL_PASSWORD: course_pass
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports:
+      - "3307:3306"
+    volumes:
+      - course_data:/var/lib/mysql
+
+# ---------------- ANALYTICS SERVICE ----------------
+  analytics-service:
+    build: ./services/analytics-service
+    container_name: analytics-service
+    ports:
+      - "8004:8000"
+    environment:
+      - POSTGRES_USER=analytics_user
+      - POSTGRES_PASSWORD=analytics_pass
+      - POSTGRES_DB=analytics_db
+      - POSTGRES_HOST=analytics-db
+      - POSTGRES_PORT=5432
+      - JWT_SECRET=supersecretkey
+    depends_on:
+      - analytics-db
+
+  analytics-db:
+    image: postgres:14
+    container_name: analytics-db
+    restart: always
+    environment:
+      POSTGRES_USER: analytics_user
+      POSTGRES_PASSWORD: analytics_pass
+      POSTGRES_DB: analytics_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - analytics_data:/var/lib/postgresql/data
+# ---------------- API GATEWAY ----------------
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8080:80"
+    depends_on:
+      - user-service
+      - leads-service
+      - course-service
+      - analytics-service
+# ----------------- Frontend -----------------
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - api-gateway
+    networks:
+      - crm-network
+
+# ---------------- VOLUMES ----------------
+volumes:
+  mongo_data:
+  leads_data:
+  course_data:
+  analytics_data:
+
